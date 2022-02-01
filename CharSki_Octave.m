@@ -1,3 +1,21 @@
+% ===================++++++ Charski  +++++++=================== %
+% This is a colarization tool for pixel-style sprite based      %
+% character art, as typically used in point & click adventure   %
+% games. The script is written in Octave, because I find it     %
+% funny and I'm fast in matlab. I would be happy if someone     %
+% would like to port it to  a reasonable language though ;)     %
+% Maybe even as an ingame editor in AGS.
+%
+% This code is being released for learning purposes and in the  %
+% that it is usefull an funny. However WITHOUT ANY WARRANTY;    % 
+% without even the implied warranty of MERCHANTABILITY or       % 
+% FITNESS FOR A PARTICULAR PURPOSE.                             %
+%
+% The code is being licensed under the                          %
+% GNU General Public license v3.0                               %
+%
+% Author: Christian Scholz (2022)
+
 IM_seq = {'./data/MainFrame_1.png',...
 './data/MainFrame_2.png',...
 './data/MainFrame_3.png',...
