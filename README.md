@@ -1,9 +1,9 @@
 # Charski
-A colorization tool for point &amp; click pixel-style character art. To run this you need Octave, which is available for many platforms: https://www.gnu.org/software/octave/index
+A colorization tool for point &amp; click pixel-style character art. To run this you need Octave, which is available for many platforms: https://www.gnu.org/software/octave/index , and run the *.m script with it.
 
 ![Screenshot of Charski](https://github.com/coscholz1984/Charski/blob/main/Screenshot_v1.jpg?raw=true)
 
-The script has been written in octave 4.0.
+The script has been written and tested in Octave 6.2.0.
 
 A sample for character art with corresponding segmentation maps is provided based on the default template of Adventure Game Studio: https://www.adventuregamestudio.co.uk/ and https://github.com/adventuregamestudio/ags
 
