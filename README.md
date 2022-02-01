@@ -1,5 +1,5 @@
 # Charski
-A colorization tool for point &amp; click pixel-style character art
+A colorization tool for point &amp; click pixel-style character art. To run this you need Octave, which is available for many platforms: https://www.gnu.org/software/octave/index
 
 ![Screenshot of Charski](https://github.com/coscholz1984/Charski/blob/main/Screenshot_v1.jpg?raw=true)
 
