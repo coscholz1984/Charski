@@ -1,21 +1,3 @@
-% ===================++++++ Charski  +++++++=================== %
-% This is a colarization tool for pixel-style sprite based      %
-% character art, as typically used in point & click adventure   %
-% games. The script is written in Octave, because I find it     %
-% funny and I'm fast in matlab. I would be happy if someone     %
-% would like to port it to  a reasonable language though ;)     %
-% Maybe even as an ingame editor in AGS.
-%
-% This code is being released for learning purposes and in the  %
-% that it is usefull an funny. However WITHOUT ANY WARRANTY;    % 
-% without even the implied warranty of MERCHANTABILITY or       % 
-% FITNESS FOR A PARTICULAR PURPOSE.                             %
-%
-% The code is being licensed under the                          %
-% GNU General Public license v3.0                               %
-%
-% Author: Christian Scholz (2022)
-
 IM_seq = {'./data/MainFrame_1.png',...
 './data/MainFrame_2.png',...
 './data/MainFrame_3.png',...
@@ -110,14 +92,34 @@ comap_hsv = [[(0:0.1:1)', [0:0.033:0.16, 0.18:-0.033:0]', zeros(11,1)];hsv(234);
 function load_sequence(obj, init = false)
   % open file dialog for frames
   [fname_frame, fpath_frame, fltidx_frame] = uigetfile ({"*.png", "Frames in png format"},"Load frames","*.png", "Multiselect", "on");
+  h = guidata (obj);
+  bConv = logical(get(h.BCb, "value"));
   % read frames
   if ~isnumeric(fname_frame)
     if iscell(fname_frame)
       for iIM = 1:numel(fname_frame)
-        IM{iIM} = imread(fullfile(fpath_frame,fname_frame{iIM}));
+        % convert rgb2gray if required
+        if bConv
+          IM_tmp = imread(fullfile(fpath_frame,fname_frame{iIM}));
+          IM_tmp_bg = (IM_tmp(:,:,1) == 255) & (IM_tmp(:,:,2) == 0) & (IM_tmp(:,:,3) == 255); % get magenta background
+          IM_tmp_ = repmat(rgb2gray(IM_tmp),1,1,3);
+          IM_tmp(~repmat(IM_tmp_bg,1,1,3)) = IM_tmp_(~repmat(IM_tmp_bg,1,1,3));
+          IM{iIM} = IM_tmp;
+        else
+          IM{iIM} = imread(fullfile(fpath_frame,fname_frame{iIM}));
+        end
       end
     else
-      IM{1} = imread(fullfile(fpath_fname,fname_frame));
+      % convert rgb2gray if required
+      if bConv
+        IM_tmp = imread(fullfile(fpath_frame,fname_frame));
+        IM_tmp_bg = (IM_tmp(:,:,1) == 255) & (IM_tmp(:,:,2) == 0) & (IM_tmp(:,:,3) == 255); % get magenta background
+        IM_tmp_ = repmat(rgb2gray(IM_tmp),1,1,3);
+        IM_tmp(~repmat(IM_tmp_bg,1,1,3)) = IM_tmp_(~repmat(IM_tmp_bg,1,1,3));
+        IM{1} = IM_tmp;
+      else
+        IM{1} = imread(fullfile(fpath_frame,fname_frame));
+      end
     end
   else
     warning("No frames selected.")
@@ -144,7 +146,6 @@ function load_sequence(obj, init = false)
     return;
   end
   % update guidata
-  h = guidata (obj);
   h.imgs = IM;
   h.segs = SE;
   set(h.PS, "string", arrayfun(@num2str,1:numel(IM),'UniformOutput',false));
@@ -418,15 +419,16 @@ h.LGE = uicontrol("parent", p, "style", "popupmenu", "string", {"0";"1";"2";"3"}
 
 % add open sequence button
 h.BO = uicontrol("style", "pushbutton", "string", "Open frames", 'units', 'normalized', "position",[.005 .95 .12 .04], "callback", @load_sequence); 
+h.BCb = uicontrol("style", "checkbox", "string", "rgb2gray", "value", 0, "units", "normalized", "position", [.005 .90 .12 .04]);
 
 % add selection of frames
-h.LF = uicontrol("style", "text", "string", "Frame:", 'units', 'normalized', "position",[.003 .90 .08 .04]); 
-h.PS = uicontrol("style", "popupmenu", "string", arrayfun(@num2str,1:numel(IM),'UniformOutput',false), 'value', 1, 'units', 'normalized', "position",[.005 .85 .10 .05], "callback", @update_image); 
+h.LF = uicontrol("style", "text", "string", "Frame:", 'units', 'normalized', "position",[.003 .80 .08 .04]); 
+h.PS = uicontrol("style", "popupmenu", "string", arrayfun(@num2str,1:numel(IM),'UniformOutput',false), 'value', 1, 'units', 'normalized', "position",[.005 .75 .10 .05], "callback", @update_image); 
 
 % Export frame
-h.EBT = uicontrol("style", "pushbutton", "string", {'Save frame'}, 'units', 'normalized', "position",[.005 .75 .12 .06], "callback", @export_current_frame);
-h.ESBT = uicontrol("style", "pushbutton", "string", {'Save all'}, 'units', 'normalized', "position",[.005 .67 .12 .06], "callback", @export_all_frames);
-h.EED = uicontrol("style", "edit", "string", "Frame_edit_", 'units', 'normalized', "position",[.005 .63 .12 .04]);
+h.EBT = uicontrol("style", "pushbutton", "string", {'Save frame'}, 'units', 'normalized', "position",[.005 .65 .12 .06], "callback", @export_current_frame);
+h.ESBT = uicontrol("style", "pushbutton", "string", {'Save all'}, 'units', 'normalized', "position",[.005 .57 .12 .06], "callback", @export_all_frames);
+h.EED = uicontrol("style", "edit", "string", "Frame_edit_", 'units', 'normalized', "position",[.005 .53 .12 .04]);
 
 % Cut row option
 h.LC = uicontrol("style", "text", "string", "Cut rows:", 'units', 'normalized', "position",[.003 .75-0.3 .12 .04]); 
