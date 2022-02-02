@@ -62,6 +62,8 @@ SE_seq = {'./data/Segmentation_1.png',...
 % load image pakge for image operations
 pkg load image
 
+IM = {};
+SE = {};
 for iIM = 1:numel(IM_seq)
   IM{iIM} = imread(IM_seq{iIM});
   SE{iIM} = imread(SE_seq{iIM});
