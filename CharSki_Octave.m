@@ -1,3 +1,22 @@
+% ============== Charski character skin editor  =============== %
+% This is a character skin colorization editor. It can load a   %
+% series of frames with corresponding segmentation maps that    %
+% identify the individual parts of the character (hair, torso,  %
+% etc.) and then assign different colors to these parts.        %
+%
+% This code is being released for learning purposes and in the  %
+% that it is usefull and funny. However WITHOUT ANY WARRANTY;   % 
+% without even the implied warranty of MERCHANTABILITY or       % 
+% FITNESS FOR A PARTICULAR PURPOSE.                             %
+%
+% The code is being licensed under the                          %
+% GNU General Public license v3.0                               %
+% Graphics and data used in this example are licensed under the %
+% Creative Commons Attribution 4.0 International license        %
+% (CC BY 4.0)                                                   %
+%
+% Author: Christian Scholz (2022)
+
 IM_seq = {'./data/MainFrame_1.png',...
 './data/MainFrame_2.png',...
 './data/MainFrame_3.png',...
